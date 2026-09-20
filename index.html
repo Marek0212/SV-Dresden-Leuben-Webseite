@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<!-- DOCTYPE: Sagt dem Browser "Das ist ein modernes HTML5-Dokument". Muss immer die erste Zeile sein. -->
+
+<html lang="de">
+<!-- <html>: Das Wurzelelement – alles andere ist darin enthalten.
+     lang="de": Teilt Browser und Suchmaschinen mit, dass der Inhalt auf Deutsch ist (wichtig für Screenreader & SEO). -->
+
+<head>
+    <!-- <head>: Unsichtbarer Bereich – enthält technische Einstellungen, Dateiverknüpfungen und Metadaten. -->
+
+    <meta charset="UTF-8">
+    <!-- charset=UTF-8: Legt die Zeichenkodierung fest.
+         UTF-8 unterstützt alle Zeichen weltweit – notwendig für Umlaute (ä, ö, ü) und Sonderzeichen. -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- viewport: Steuert wie die Seite auf mobilen Geräten dargestellt wird.
+         width=device-width: Breite passt sich der Bildschirmbreite an (kein rausgezoomtes Layout).
+         initial-scale=1.0: Beim ersten Laden ist der Zoom-Faktor 1 (also 100%, nicht rausgezoomt). -->
+
+    <link rel="stylesheet" href="style.css">
+    <!-- <link>: Verknüpft eine externe Datei mit der HTML-Seite.
+         rel="stylesheet": Sagt dem Browser, dass es eine CSS-Design-Datei ist.
+         href="style.css": Der Pfad zur Datei (hier im gleichen Ordner). -->
+
+    <script src="script.js" defer></script>
+    <!-- <script>: Bindet eine JavaScript-Datei ein.
+         src="script.js": Pfad zur JavaScript-Datei.
+         defer: "Zurückstellen" – der Browser lädt das JS, führt es aber erst aus NACHDEM das
+                gesamte HTML geladen und aufgebaut wurde. Ohne defer würde JS laufen bevor die
+                HTML-Elemente existieren, was zu Fehlern führen würde. -->
+
+    <title>SV Dresden-Leuben</title>
+    <!-- <title>: Der Text der im Browser-Tab oben angezeigt wird.
+         Auch Suchmaschinen (Google) zeigen diesen Text als Linktext in den Ergebnissen. -->
+
+</head>
+
+<body>
+    <!-- <body>: Alles was hier drin steht ist auf der Seite sichtbar.
+     Der gesamte sichtbare Inhalt (Text, Bilder, Buttons...) kommt hierhin. -->
+
+    <header>
+        <div class="header-logo-title">
+            <img src="logoleuben.png" alt="Logo vom SV Dresden-Leuben" class="header-logo">
+            <h1 class="abstand1">SV-Dresden-Leuben</h1>
+        </div>
+        <div class="header-icons">
+            <div class="hero-icon-1">
+                <img src="search_70dp_1F1F1F_FILL0_wght100_GRAD0_opsz48.svg" alt="Suche">
+            </div>
+            <div class="hero-icon-2">
+                <img class="burger-icon" src="dehaze_70dp_1A1A1A_FILL0_wght100_GRAD0_opsz48.svg" alt="Menü">
+                <img class="close-icon" src="close_70dp_1A1A1A_FILL0_wght100_GRAD0_opsz48.svg" alt="Schließen">
+            </div>
+        </div>
+        <div class="such-panel" id="such-panel">
+            <div class="such-panel-inner">
+                <input type="text" id="such-input" placeholder="Suche..." autocomplete="off">
+                <div class="such-ergebnisse" id="such-ergebnisse"></div>
+
+                <div class="quick-links">
+                    <p class="quick-links-titel">Quick Links</p>
+                    <ul>
+                        <li><a href="trainingszeiten.html">Trainingszeiten</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Ende Such-Panel -->
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html" class="hover-effekt">Startseite</a>
+            </li>
+            <li class="divider"></li>
+
+            <li>
+                <a href="news.html" class="hover-effekt">News</a>
+            </li>
+
+            <!-- Trennstrich 2 -->
+            <li class="divider"></li>
+
+            <li class="nav-item-dropdown">
+                <a style="cursor: pointer;">Spielbetrieb &amp; Training<span class="chevron-hover">
+                        <img src="chevron_forward_24dp_F5F5F5_FILL0_wght400_GRAD0_opsz24.svg" alt="Chevron"></span></a>
+                <!-- &amp;: HTML-Sonderzeichen-Code für das kaufmännische &-Zeichen. -->
+                <div class="dropdown-content">
+                    <a href="trainingszeiten.html">Trainingszeiten</a>
+                    <a href="#">Mannschaften</a>
+                    <a href="#">Terminkalender & Turniere</a>
+                    <a href="#">Saison- & Turnierchronik</a>
+                </div>
+            </li>
+
+            <!-- Trennstrich 3 -->
+            <li class="divider"></li>
+
+            <li class="nav-item-dropdown">
+                <a style="cursor: pointer;">Über uns<span class="chevron-hover">
+                        <img src="chevron_forward_24dp_F5F5F5_FILL0_wght400_GRAD0_opsz24.svg" alt="Chevron"></span></a>
+                <div class="dropdown-content">
+                    <a href="#">Vorstand & Kontakt</a>
+                    <a href="#">Vereinsgeschichte</a>
+                    <a href="#">Spiellokal & Anfahrt</a>
+                    <a href="#">Mitglied werden</a>
+                    <a href="#">Satzung & Formulare</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+
+    <main>
+        <div id="loading-screen">
+            <div class="loader-content">
+                <div class="typewriter">
+                    <div class="slide"><i></i></div>
+                    <div class="paper"></div>
+                    <div class="keyboard"></div>
+                </div>
+                <div class="loading-text">Lade...</div>
+            </div>
+            <div class="loader-footer">
+                Design von <a href="https://uiverse.io/adeoye_8810/wet-fireant-16" target="_blank"
+                    rel="noopener">adeoye_8810</a>
+            </div>
+        </div>
+        <!-- <main>: Der Hauptinhalt der Seite – darf pro Seite nur einmal vorkommen.
+         Hilft Suchmaschinen den relevantesten Inhalt zu finden. -->
+
+        <!-- News-Karussell -->
+        <div class="karussell">
+            <!-- Äußere Hülle des Karussells. class= statt id= weil Klassen wiederverwendbar sind.
+             CSS nutzt diese Klasse um das Karussell zu formatieren (Höhe, Überlauf ausblenden...). -->
+
+            <!-- Die Spur, auf der die Karten gleiten -->
+            <div class="karussell-spur">
+                <!-- Die "Spur" ist ein Flex-Container der alle Karten nebeneinander aufstellt.
+                 JavaScript verschiebt diese Spur horizontal (translateX) um zwischen Karten zu wechseln. -->
+
+                <!-- Karte 1 -->
+                <div class="karussell-karte">
+                    <!-- Eine einzelne Karte. Per CSS ist sie 100% breit – nimmt den ganzen Karussell-Bereich ein.
+                     Da alle Karten nebeneinander in der Spur liegen, schiebt das JS die Spur um 100% zur Seite
+                     um zur nächsten Karte zu wechseln. -->
+
+                    <a href="news.html">
+                        <!-- Der gesamte Karteninhalt ist ein Link. Klick auf Bild oder Text öffnet news.html.
+                         href="news.html": Relative URL – Datei im gleichen Ordner. -->
+
+                        <img src="jani-kaasinen-7VGzV09YnvA-unsplash.avif" alt="Schachspieler am Brett">
+                        <!-- Das Karussell-Foto. Füllt per CSS die gesamte Karte aus (width:100%, height:420px). -->
+
+                        <div class="karte-text">
+                            <!-- Text-Overlay über dem Bild. Per CSS absolut positioniert (unten links auf dem Bild). -->
+
+                            <h3>Turniersaison 2026 startet!</h3>
+                            <!-- <h3>: Überschrift dritter Ebene – kleiner als h1 und h2. -->
+
+                            <p>Alle Infos zu den kommenden Spielen und Terminen.</p>
+                            <!-- <p>: "Paragraph" – ein Textabsatz. Browser setzen automatisch Abstände davor/danach. -->
+
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Karte 2 -->
+                <div class="karussell-karte">
+                    <a href="news.html">
+                        <img src="denis-volkov-LbMELNUgtAY-unsplash.jpg" alt="Schachfiguren auf dem Brett">
+                        <div class="karte-text">
+                            <h3>Neue Mitglieder herzlich willkommen</h3>
+                            <p>Jetzt eintreten und Teil unserer Gemeinschaft werden.</p>
+                        </div>
+                    </a>
+                </div>
+
+            </div><!-- Ende .karussell-spur -->
+
+            <!-- Pfeil-Buttons zum Navigieren -->
+            <button class="karussell-btn karussell-btn--links" id="btn-links"
+                aria-label="Vorheriges Bild">&#8592;</button>
+            <!-- Linker Pfeil-Button. Mehrere Klassen: "karussell-btn" für allgemeines Pfeil-Design,
+                 "karussell-btn--links" für die Positionierung links.
+                 aria-label: Text für Screenreader (da der Button kein sichtbares Textetikett hat).
+                 &#8592;: HTML-Code für den Pfeil ← (Unicode-Zeichen 8592). -->
+
+            <button class="karussell-btn karussell-btn--rechts" id="btn-rechts"
+                aria-label="Nächstes Bild">&#8594;</button>
+            <!-- Rechter Pfeil-Button. &#8594; = Pfeil → -->
+
+            <!-- Navigationspunkte (Dots) -->
+            <div class="karussell-dots">
+                <!-- Container für die kleinen Punkte unten im Karussell (zeigen welche Karte aktiv ist). -->
+
+                <button class="dot aktiv" data-index="0" aria-label="Bild 1"></button>
+                <!-- Erster Dot. class="dot aktiv": Zwei Klassen gleichzeitig (Leerzeichen trennt sie).
+                     "aktiv" macht ihn weiß und etwas größer – zeigt an, dass Karte 1 gerade sichtbar ist.
+                     data-index="0": Eigenes Daten-Attribut. JavaScript liest es aus (dataset.index)
+                                     um zu wissen, zu welcher Karte dieser Punkt gehört.
+                     Leerer Button: Kein Text, nur ein grafischer Punkt (per CSS als Kreis gestylt). -->
+
+                <button class="dot" data-index="1" aria-label="Bild 2"></button>
+                <!-- Zweiter Dot. Kein "aktiv" – ist beim Laden nicht aktiv (Karte 2 ist nicht sichtbar). -->
+            </div>
+
+        </div><!-- Ende .karussell -->
+        </div>
+        <!-- AUSKOMMENTIERT (inaktiv) – div.main-layout
+        <div class="main-layout">
+
+            <!\-\- NEU: Ein Container für die Texte, damit sie bündig mit dem Bild abschließen -\->
+            <div class="hero-text-container">
+                <p class="hero-icon">▽</p>
+                <p class="hero-text">SV Dresden-Leuben e. V.</p>
+                <h1 class="hero-headline">Dein nächster Zug beginnt hier.</h1>
+            </div>
+
+            <!\-\- Das große Bild darunter -\->
+            <img src="pexels-robbe-jaspers-734722312-18675892.jpg" alt="Schachbrett" class="hero-picture">
+
+        </div>
+        -->
+        <hr class="trennline1">
+        <div class="werbeblock1">
+
+            <div class="werbetext1">
+
+                <h2 class="ueberschrift1">SV Dresden-Leuben e. V. - Dein nächster Zug beginnt
+                    hier.</h2>
+
+
+                <p class="blocktext1">Wir sind ein kleiner Schachverein im Dresdner Südosten.
+                    Hier treffen Leidenschaft<br> und Gemeinschaft aufeinander.
+
+                    Egal ob Anfänger, Hobbyspieler oder Turniersieger<br> - bei
+                    uns findet jeder seinen Platz am Brett. Schau vorbei und
+                    mach mit!
+                </p>
+                <button class="button1">Unsere Traingszeiten ↗</button>
+            </div>
+
+            <img src="pexels-robbe-jaspers-734722312-18675892.jpg" alt="Bild 1" class="werbebild1" loading="lazy">
+
+
+        </div>
+        <div class="werbeblock2">
+
+
+            <div class="werbetext2">
+
+                <h2 class="ueberschrift2">Erfolge aus Leidenschaft und Tradition - seit 1990.</h2>
+
+                <p class="blocktext2">Seit unserer Gründung 1990 schreiben wir im Dresdner Südosten
+                    Erfolgsgeschichte. Ob der legendäre<br> Durchmarsch der 1. Mannschaft mit einer makellosen
+                    18:0-Saison in die sächsische Spitzenklasse,<br> Spitzenplatzierungen unserer Kaderspieler bei
+                    Deutschen Seniorenmeisterschaften oder Podestplätze<br> unseres Nachwuchses auf
+                    Landesebene - Leuben steht für schachliche Klasse.
+                </p>
+                <button class="button1">Unsere Erfolge im Detail ↗</button>
+            </div>
+
+            <img src="pexels-cottonbro-6565255.jpg" alt="Bild 2" class="werbebild2">
+        </div>
+    </main>
+    <hr class="trennline1">
+
+    <footer>
+        <div class="grid-impressum">
+            <div class="rechtliches">
+                <p class="ueberschrift-rechtliches">Rechtliches</p>
+                <ul class="unterpunkte-rechtliches">
+                    <li><a href="impressum.html" class="impressum">Impressum ↗</a></li>
+                    <li><a href="datenschutz.html" class="datenschutz">Datenschutz ↗</a></li>
+                    <li class="copyright">© 2026 SV Dresden-Leuben. Alle Rechte vorbehalten.</li>
+                </ul>
+            </div>
+            <div class="aktuelle-version">
+                <p class="ueberschrift-version">Aktuelle Version</p>
+
+                <ul class="unterpunkte-version">
+                    <li>Version: Closed Beta</li>
+                    <li>
+                        <a class="version-liste" href="versionen-liste.html">
+                            Liste aller Versionen ↗
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sponsor-bild">
+                <a href="https://www.smi.sachsen.de/"><img src="förderung-bild.png"
+                        alt="Gefördert durch den Freistaat Sachsen"></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+<!-- Ende des sichtbaren Bereichs -->
+
+</html>
+<!-- Ende des HTML-Dokuments. Alles muss vor diesem Tag stehen. -->

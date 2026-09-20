@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!-- DOCTYPE: Sagt dem Browser "Das ist ein modernes HTML5-Dokument". Muss immer die erste Zeile sein. -->
+
+<html lang="de">
+<!-- <html>: Das Wurzelelement – alles andere ist darin enthalten.
+     lang="de": Teilt Browser und Suchmaschinen mit, dass der Inhalt auf Deutsch ist (wichtig für Screenreader & SEO). -->
+
+<head>
+    <!-- <head>: Unsichtbarer Bereich – enthält technische Einstellungen, Dateiverknüpfungen und Metadaten. -->
+
+    <meta charset="UTF-8">
+    <!-- charset=UTF-8: Legt die Zeichenkodierung fest.
+         UTF-8 unterstützt alle Zeichen weltweit – notwendig für Umlaute (ä, ö, ü) und Sonderzeichen. -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- viewport: Steuert wie die Seite auf mobilen Geräten dargestellt wird.
+         width=device-width: Breite passt sich der Bildschirmbreite an (kein rausgezoomtes Layout).
+         initial-scale=1.0: Beim ersten Laden ist der Zoom-Faktor 1 (also 100%, nicht rausgezoomt). -->
+
+    <link rel="stylesheet" href="style.css">
+    <!-- <link>: Verknüpft eine externe Datei mit der HTML-Seite.
+         rel="stylesheet": Sagt dem Browser, dass es eine CSS-Design-Datei ist.
+         href="style.css": Der Pfad zur Datei (hier im gleichen Ordner). -->
+
+    <script src="script.js" defer></script>
+    <!-- <script>: Bindet eine JavaScript-Datei ein.
+         src="script.js": Pfad zur JavaScript-Datei.
+         defer: "Zurückstellen" – der Browser lädt das JS, führt es aber erst aus NACHDEM das
+                gesamte HTML geladen und aufgebaut wurde. Ohne defer würde JS laufen bevor die
+                HTML-Elemente existieren, was zu Fehlern führen würde. -->
+
+    <title>SV Dresden-Leuben</title>
+    <!-- <title>: Der Text der im Browser-Tab oben angezeigt wird.
+         Auch Suchmaschinen (Google) zeigen diesen Text als Linktext in den Ergebnissen. -->
+
+</head>
+
+<body>
+    <!-- <body>: Alles was hier drin steht ist auf der Seite sichtbar.
+     Der gesamte sichtbare Inhalt (Text, Bilder, Buttons...) kommt hierhin. -->
+
+    <header>
+        <!-- <header>: Semantisches Element für den Seitenkopf.
+         "Semantisch" bedeutet: der Browser und Suchmaschinen verstehen, dass das der Kopfbereich ist.
+         Typischer Inhalt: Logo, Seitentitel, Haupt-Navigation. -->
+        <div class="header-logo-title">
+            <img src="logoleuben.png" alt="Logo vom SV Dresden-Leuben" class="header-logo">
+            <h1 class="abstand1">SV-Dresden-Leuben</h1>
+        </div>
+
+        <div class="header-actions">
+            <button id="such-btn" aria-label="Suche">
+                <img src="search_70dp_1A1A1A_FILL0_wght100_GRAD0_opsz48.svg" alt="Suche" id="such-icon">
+                <img src="close_70dp_1A1A1A_FILL0_wght100_GRAD0_opsz48.svg" alt="Schließen" id="close-icon"
+                    style="display:none;">
+            </button>
+            <div id="such-leiste" style="display: none;">
+                <input type="text" id="such-eingabe" placeholder="Suchen..." />
+                <div id="such-ergebnisse" style="display: none;">
+                    <ul id="ergebnis-liste"></ul>
+                </div>
+            </div>
+            <button id="burger-btn" aria-label="Menü">
+                <img src="dehaze_70dp_1A1A1A_FILL0_wght100_GRAD0_opsz48.svg" alt="Menü" id="burger-icon">
+                <img src="close_70dp_1A1A1A_FILL0_wght100_GRAD0_opsz48.svg" alt="Menü schließen" id="burger-close-icon"
+                    style="display:none;">
+            </button>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <a href="index.html" class="hover-effekt">Startseite</a>
+            </li>
+            <!-- Trennstrich 1 -->
+            <li class="divider"></li>
+
+            <li>
+                <a href="news.html" class="hover-effekt">News</a>
+            </li>
+
+            <!-- Trennstrich 2 -->
+            <li class="divider"></li>
+
+            <li class="nav-item-dropdown">
+                <a style="cursor: pointer;">Spielbetrieb &amp; Training<span class="chevron-hover">
+                        <img src="chevron_forward_24dp_F5F5F5_FILL0_wght400_GRAD0_opsz24.svg" alt="Chevron"></span></a>
+                <!-- &amp;: HTML-Sonderzeichen-Code für das kaufmännische &-Zeichen. -->
+                <div class="dropdown-content">
+                    <a href="trainingszeiten.html">Trainingszeiten</a>
+                    <a href="#">Mannschaften</a>
+                    <a href="#">Terminkalender & Turniere</a>
+                    <a href="#">Saison- & Turnierchronik</a>
+                </div>
+            </li>
+
+            <!-- Trennstrich 3 -->
+            <li class="divider"></li>
+
+            <li class="nav-item-dropdown">
+                <a style="cursor: pointer;">Über uns<span class="chevron-hover">
+                        <img src="chevron_forward_24dp_F5F5F5_FILL0_wght400_GRAD0_opsz24.svg" alt="Chevron"></span></a>
+                <div class="dropdown-content">
+                    <a href="#">Vorstand & Kontakt</a>
+                    <a href="#">Vereinsgeschichte</a>
+                    <a href="#">Spiellokal & Anfahrt</a>
+                    <a href="#">Mitglied werden</a>
+                    <a href="#">Satzung & Formulare</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <main class="nach-innen">
+        <h2 class="ueberschrift3">Trainingszeiten</h2>
+        <p class="der-x-te-text">Das Traingsangebot gilt für alle Vereinsmitglieder.
+            Gäste sind aber nach vorheriger
+            Anfrage auch willkommen.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Wochentag</th>
+                    <th>Zeit</th>
+                    <th>Trainingsangebot</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Montag</td>
+                    <td>17:30 Uhr bis 19:00 Uhr</td>
+                    <td>Kinder & Jugendliche (mehrere Gruppen)</td>
+                </tr>
+                <tr>
+                    <td>Dienstag</td>
+                    <td>17:00 Uhr bis 18:30 Uhr <strong>ca. 18:45 Uhr</strong> (bis der Letzte geht)
+                        <span class="uhrzeit-dienstag"><br>→ jeder <strong>1. Di</strong> im Monat: Blitz [3'+2"]
+                            (Beginn: <strong>19:30 Uhr</strong>)
+                            <br>→ jeder <strong>3. Di</strong> im Monat: Schnellschach [15'+0"] (Beginn: <strong>19:30
+                                Uhr</strong>)</span>
+                    </td>
+                    <td>alle Altersklassen<br><strong>offenes Training / Spielabend</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mittwoch</td>
+                    <td>16:30 Uhr bis 18:00 Uhr</td>
+                    <td>Kinder & Jugendliche (mehrere Gruppen)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="abstand-oben-trainingszeiten">In den <strong>Schulferien</strong> wird gewöhnlich kein
+            Nachwuchs-Training durchgeführt.
+            Lediglich der offene Spielabend (dienstags) findet immer statt.</p>
+    </main>
+
+    <footer>
+        <hr class="trennline1">
+        <div class="grid-impressum">
+            <div class="rechtliches">
+                <p class="ueberschrift-rechtliches">Rechtliches</p>
+                <ul class="unterpunkte-rechtliches">
+                    <li><a href="impressum.html" class="impressum">Impressum ↗</a></li>
+                    <li><a href="datenschutz.html" class="datenschutz">Datenschutz ↗</a></li>
+                    <li class="copyright">© 2026 SV Dresden-Leuben. Alle Rechte vorbehalten.</li>
+                </ul>
+            </div>
+            <div class="aktuelle-version">
+                <p class="ueberschrift-version">Aktuelle Version</p>
+
+                <ul class="unterpunkte-version">
+                    <li>Version: Closed Beta</li>
+                    <li>
+                        <a class="version-liste" href="versionen-liste.html">
+                            Liste aller Versionen ↗
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sponsor-bild">
+                <a href="https://www.smi.sachsen.de/"><img src="förderung-bild.png"
+                        alt="Gefördert durch den Freistaat Sachsen" loading="lazy"></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+<!-- Ende des sichtbaren Bereichs -->
+
+</html>
+<!-- Ende des HTML-Dokuments. Alles muss vor diesem Tag stehen. -->

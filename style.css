@@ -1,0 +1,1393 @@
+/* ==========================================================================
+   STYLE.CSS – Vollständig kommentierte Version
+   Jede CSS-Eigenschaft ist erklärt.
+   ========================================================================== */
+
+/* Standardmäßig für alle sanft scrollen */
+html {
+   scroll-behavior: smooth;
+   overflow-y: scroll;
+}
+
+/* Wenn der Nutzer in seinem Betriebssystem Animationen deaktiviert hat, schalte es ab */
+@media (prefers-reduced-motion: reduce) {
+   html {
+      scroll-behavior: auto;
+   }
+}
+
+/* --- Basis-Reset ---
+   Viele Browser haben eigene Standard-Abstände und Größen.
+   Dieser Reset entfernt/vereinheitlicht sie, damit die Seite überall gleich aussieht. */
+*,
+/* * = "Stern-Selektor" – trifft ALLE Elemente auf der Seite */
+*::before,
+/* ::before = ein unsichtbares Pseudo-Element das vor jedem echten Element existiert */
+*::after {
+   /* ::after  = ein unsichtbares Pseudo-Element das nach jedem echten Element existiert */
+   box-sizing: border-box;
+   /* box-sizing bestimmt wie Breite/Höhe berechnet wird.
+       browser-default "content-box": width zählt NUR den Inhalt. Padding kommt obendrauf.
+       "border-box": width beinhaltet Inhalt + Padding + Border. Viel intuitiver. */
+}
+
+
+/* --- Grunddesign des gesamten Seitenbereichs --- */
+body {
+   margin: 0;
+   padding: 0;
+   background-color: whitesmoke;
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh;
+   font-family: 'Inter', sans-serif;
+}
+
+main {
+   flex: 1;
+}
+
+
+/* --- Header-Layout --- */
+header {
+   display: flex;
+   /* display:flex macht den Header zu einem "Flex-Container".
+       Alle direkten Kinder (h1, div#such-bereich) werden automatisch nebeneinander angeordnet.
+       Ohne flex würden sie untereinander stehen. */
+   align-items: center;
+   /* align-items: Wie die Kinder senkrecht (vertikal) ausgerichtet werden.
+       center = alle Kinder sind vertikal in der Mitte des Headers. */
+   justify-content: space-between;
+   /* justify-content: Wie der freie Platz horizontal verteilt wird.
+       space-between = erstes Kind ganz links, letztes ganz rechts, Rest gleichmäßig verteilt.
+       So kommt die Logo-Gruppe nach links und der Such-Button nach rechts. */
+   padding: 6px 16px 6px 6px;
+   /* 6px Padding oben/unten/links, 16px Padding rechts für mehr Abstand zum Rand. */
+   position: relative;
+}
+
+/* Logo + h1 gruppiert auf der linken Seite */
+.header-logo-title {
+   display: flex;
+   align-items: center;
+   gap: 4px;
+   /* 8px Abstand zwischen Logo und Titel */
+}
+
+/* Das Logo passt sich an die verfügbare Höhe an */
+.header-logo {
+   height: 50px;
+   width: auto;
+   display: block;
+}
+
+.abstand1,
+.abstand2 {
+   padding: 10px;
+}
+
+/* --- Haupt-Überschrift h1 --- */
+h1 {
+   margin: 0;
+   /* Browser setzen standardmäßig margin-top und margin-bottom für Überschriften.
+       Das würde h1 vertikal verschieben. margin:0 entfernt das. */
+   color: black;
+   /* Textfarbe schwarz. Explizit gesetzt, da der body einen grauen Hintergrund hat. */
+   /* Andere Schriftart als der body – Montserrat für Überschriften (elegant, modern). */
+}
+
+/* =========================================================
+   NEWS-KARUSSELL
+   ========================================================= */
+
+/* Äußerer Rahmen des Karussells */
+.karussell {
+   position: relative;
+   /* Ankerpunkt für die absolut positionierten Pfeil-Buttons und Dots.
+       position:relative hält das Element an seiner Stelle, macht es aber zum
+       Koordinaten-Ursprung für position:absolute Kinder. */
+   width: 100%;
+   /* Breite = 100% des Elternelements (also die volle Seitenbreite). */
+   height: 420px;
+   /* Feste Höhe – alle Bilder werden auf genau diese Höhe zugeschnitten. */
+   overflow: hidden;
+   /* overflow:hidden: Alles was über die Grenzen des Karussells hinausragt wird abgeschnitten.
+       Ohne das würde man alle Karten nebeneinander sehen. */
+   background-color: #111;
+   /* Sehr dunkles Grau als Hintergrund – sichtbar während das Bild lädt. */
+}
+
+/* Die Spur: alle Karten in einer langen Reihe */
+.karussell-spur {
+   display: flex;
+   /* Flex macht alle Karten (.karussell-karte) nebeneinander – wie in einer langen Reihe. */
+   transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+   /* transition: Wenn sich transform verändert (per JavaScript), soll das animiert geschehen.
+       0.5s: Dauer der Animation = halbe Sekunde.
+       cubic-bezier(0.25, 1, 0.5, 1): Die Beschleunigungskurve der Animation.
+       Diese Kurve startet schnell und bremst sanft ab – wie ein Apple-Scroll-Effekt. */
+}
+
+/* =========================================================
+   SCROLL-ZOOM SECTION
+   ========================================================= */
+
+/* Der sichtbare Container der im Viewport "hängen bleibt" */
+.zoom-in {
+   background-color: #121212;
+   padding-top: 5px;
+   padding-bottom: 5px;
+}
+
+.picture-zoom-in {
+   width: 200px;
+   height: auto;
+   border-radius: 5px;
+
+   /* Diese zwei Zeilen zentrieren das Bild direkt: */
+   display: block;
+   margin: 0 auto;
+}
+
+/* Jede einzelne Karte */
+.karussell-karte {
+   min-width: 100%;
+   /* min-width:100% = jede Karte ist mindestens so breit wie das Karussell.
+       Da overflow:hidden alles außerhalb versteckt, sieht man immer nur eine Karte. */
+   position: relative;
+   /* Ankerpunkt damit .karte-text (der Text-Overlay) sich absolut positionieren kann. */
+}
+
+/* Der Link-Wrapper füllt die ganze Karte */
+.karussell-karte a {
+   display: block;
+   /* <a> ist normalerweise inline (wie Text). display:block macht es zu einem Block-Element
+       das die gesamte Karte ausfüllt – der Klickbereich ist dann das ganze Bild. */
+   text-decoration: none;
+   /* Entfernt die Browser-Standard-Unterstreichung bei Links. */
+   color: inherit;
+   /* inherit: Die Textfarbe erbt vom Elternelement (kein automatisches Blau für Links). */
+}
+
+/* Das Bild innerhalb der Karte */
+.karussell-karte img {
+   width: 100%;
+   /* Bild so breit wie die Karte (= so breit wie das Karussell = volle Seitenbreite). */
+   height: 420px;
+   /* Gleiche Höhe wie das Karussell – Bild wird auf diese Höhe gezwungen. */
+   object-fit: cover;
+   /* object-fit:cover: Das Bild füllt den Bereich komplett aus.
+       Falls Bild und Container andere Seitenverhältnisse haben, wird das Bild zugeschnitten
+       (nicht verzerrt). Wie "Hintergrundgröße: cover" für Bilder. */
+   display: block;
+   /* Entfernt den kleinen Browser-Standard-Abstand unter Bildern (inline-Elemente haben einen). */
+   filter: brightness(0.65);
+   /* filter:brightness() macht das Bild dunkler. 1.0 = normal, 0.65 = 65% Helligkeit.
+       Dadurch ist der weiße Text auf dem Bild besser lesbar. */
+   transition: filter 0.3s ease;
+   /* Wenn sich die Helligkeit ändert (z.B. bei hover), geschieht das sanft in 0.3 Sekunden.
+       ease: Standard-Beschleunigungskurve (langsam start, schnell, langsam ende). */
+}
+
+/* Text-Box die über dem Bild liegt */
+.karte-text {
+   position: absolute;
+   /* absolute: Das Element schwebt frei und richtet sich am nächsten position:relative Elternelement aus
+       (= .karussell-karte). Es verdrängt keine anderen Elemente. */
+   bottom: 40px;
+   /* 40px Abstand vom unteren Rand der Karte. */
+   left: 40px;
+   /* 40px Abstand vom linken Rand der Karte. */
+   color: white;
+   /* Weißer Text da der Bild-Hintergrund dunkel ist. */
+}
+
+.karte-text h3 {
+   margin: 0 0 8px 0;
+   /* Reihenfolge: oben rechts unten links (Uhrzeigersinn).
+       0 oben, 0 rechts, 8px Abstand zum Paragraphen darunter, 0 links. */
+   font-size: 1.8rem;
+   /* rem = relative em – bezieht sich auf die Schriftgröße des <html>-Elements (standardmäßig 16px).
+       1.8rem = 1.8 × 16px = 28.8px */
+   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+   /* Schatten hinter dem Text für bessere Lesbarkeit auf Bildern.
+       0 = kein horizontaler Versatz, 2px nach unten, 8px Unschärfe, 50% transparentes Schwarz. */
+   margin-bottom: 15px;
+}
+
+.karte-text p {
+   margin: 0;
+   font-size: 1rem;
+   /* 1rem = Standardgröße (16px). */
+   opacity: 0.85;
+   /* opacity: Transparenz. 1 = vollständig sichtbar, 0 = unsichtbar.
+       0.85 = leicht transparent – macht den Paragraphen etwas weniger dominant als h3. */
+   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+
+/* --- Pfeil-Buttons --- */
+.karussell-btn {
+   position: absolute;
+   /* Schwebt über dem Karussell-Bild – verdrängt nichts. */
+   top: 50%;
+   /* Oberkante des Buttons bei 50% der Karussell-Höhe.
+       Alleine würde das den Button zu tief setzen (Oberkante bei 50%, nicht Mitte). */
+   transform: translateY(-50%);
+   /* transform:translateY(-50%) verschiebt den Button um 50% seiner eigenen Höhe nach oben.
+       Zusammen mit top:50% = perfekte vertikale Zentrierung. */
+   background-color: rgba(0, 0, 0, 0.45);
+   /* rgba: Farbe mit Transparenz. rgba(rot, grün, blau, alpha).
+       rgba(0,0,0,0.45) = Schwarz mit 45% Deckkraft → halb-transparentes Dunkel. */
+   color: white;
+   border: none;
+   /* Entfernt den Browser-Standard-Rand um Buttons. */
+   font-size: 1.5rem;
+   width: 44px;
+   height: 44px;
+   border-radius: 50%;
+   /* border-radius:50% = perfekter Kreis (wenn width = height). */
+   cursor: pointer;
+   /* cursor:pointer = Mauspfeil wird zur Hand wenn man drüber fährt (zeigt: das ist klickbar). */
+   transition: background-color 0.2s ease;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   /* Flex + align-items + justify-content: zentriert den Pfeil-Inhalt (←/→) perfekt im Kreis. */
+}
+
+.karussell-btn:hover {
+   /* :hover = Diese Regeln gelten nur wenn die Maus über dem Element ist. */
+   background-color: rgba(0, 0, 0, 0.75);
+   /* Dunkler bei hover – gibt visuelles Feedback dass der Button klickbar ist. */
+}
+
+.karussell-btn--links {
+   left: 16px;
+   /* Linker Button: 16px vom linken Rand des Karussells. */
+}
+
+.karussell-btn--rechts {
+   right: 16px;
+   /* Rechter Button: 16px vom rechten Rand des Karussells. */
+}
+
+
+/* --- Navigationspunkte (Dots) --- */
+.karussell-dots {
+   position: absolute;
+   /* Schwebt über dem Karussell-Bild. */
+   bottom: 14px;
+   /* 14px Abstand vom unteren Rand des Karussells. */
+   left: 50%;
+   /* Linke Kante bei 50% – aber dann wäre der Container links-ausgerichtet. */
+   transform: translateX(-50%);
+   /* translateX(-50%): Verschiebt den Container um die Hälfte seiner eigenen Breite nach links.
+       Zusammen mit left:50% = perfekte horizontale Zentrierung. */
+   display: flex;
+   /* Dots nebeneinander anordnen. */
+   gap: 8px;
+   /* gap: Abstand zwischen Flex-Kindern. 8px zwischen den Dots. */
+}
+
+.dot {
+   width: 10px;
+   height: 10px;
+   border-radius: 50%;
+   /* Kreis */
+   border: none;
+   background-color: rgba(255, 255, 255, 0.45);
+   /* Halbtransparentes Weiß – inaktiver Dot. */
+   cursor: pointer;
+   transition: background-color 0.2s ease, transform 0.2s ease;
+   /* Zwei Eigenschaften werden sanft animiert: Farbe und Größe. */
+   padding: 0;
+   /* Browser setzen Buttons standardmäßig mit Padding. Hier entfernt damit der Kreis exakt 10×10px ist. */
+}
+
+.dot.aktiv {
+   /* Gilt nur wenn ein Element BEIDE Klassen hat: "dot" UND "aktiv". */
+   background-color: white;
+   /* Aktiver Dot = volles Weiß (kein transparentes). */
+   transform: scale(1.3);
+   /* scale(1.3) = 30% größer als normal. Zeigt visuell welcher Dot aktiv ist. */
+}
+
+
+/* --- Text-Block unter dem Karussell --- */
+.text-einblendung {
+   padding: 24px 20px 0 20px;
+   /* 24px oben, 20px rechts, 0px unten, 20px links. Stellt seitliche Abstände wieder her. */
+}
+
+/* --- Trennlinie --- */
+.trennline1 {
+   background-color: black;
+   border-radius: 2px;
+   /* Leicht abgerundete Ecken der Linie. */
+   width: 99%;
+   /* Nicht 100% damit ein kleiner Abstand zu den Seiten bleibt. */
+}
+
+
+/* --- Werbe-/Info-Block --- */
+.werbeblock1 {
+   display: flex;
+   /* Flex: Text und Bild nebeneinander. */
+   justify-content: space-between;
+   /* Text links, Bild rechts, maximaler Abstand dazwischen. */
+   align-items: center;
+   /* Beide vertikal zentriert. */
+   padding: 20px 40px;
+   /* 20px oben/unten, 40px links/rechts Außenabstand vom Seitenrand. */
+}
+
+.werbetext {
+   margin-left: auto;
+   margin-right: auto;
+}
+
+.werbebild1 {
+   width: 400px;
+   /* Feste Breite des rechten Bildes. */
+   height: auto;
+   /* height:auto = Höhe wird automatisch berechnet um das Seitenverhältnis zu bewahren. */
+   margin-left: 24px;
+   /* Abstand zwischen Text-Block und Bild. */
+   flex-shrink: 0;
+   /* flex-shrink:0 = das Bild darf NICHT verkleinert werden wenn der Platz knapp wird.
+       Standardmäßig würden Flex-Kinder schrumpfen. */
+   border-radius: 30px;
+   /* Stark abgerundete Ecken für ein modernes, weiches Aussehen. */
+}
+
+.ueberschrift1 {
+   font-size: 32px;
+   top: -45px;
+   /* Zieht die Überschrift 45px nach oben (relativ zu ihrer normalen Position).
+       Funktioniert nur weil position:relative gesetzt ist. */
+   position: relative;
+   /* Damit top/left/right/bottom wirken – position:relative = an Stelle bleiben aber verschiebbar. */
+}
+
+.ueberschrift3 {
+   font-size: 32px;
+}
+
+.blocktext1 {
+   margin-top: -40px;
+}
+
+.button1 {
+   background-color: whitesmoke;
+   color: #078efb;
+   border: none;
+   font-size: 16px;
+   font-weight: 500;
+   line-height: 1.5;
+   margin-left: -6px;
+   margin-top: 15px;
+   transition: color 0.2s ease;
+}
+
+.button1:hover {
+   color: #1a73e8;
+}
+
+/* --- Werbe-/Info-Block 2 (Gespiegelt) --- */
+
+.ueberschrift2,
+.blocktext2,
+.button2,
+.werbebild2,
+.ueberschrift1,
+.blocktext1,
+.button1,
+.werbebild1 {
+   opacity: 0;
+   transform: translateY(40px);
+   transition: transform 0.8s cubic-bezier(0.15, 0.85, 0.45, 1), opacity 0.8s ease;
+   will-change: transform, opacity;
+}
+
+.ueberschrift2.is-visible,
+.blocktext2.is-visible,
+.button2.is-visible,
+.werbebild2.is-visible,
+.ueberschrift1.is-visible,
+.blocktext1.is-visible,
+.button1.is-visible,
+.werbebild1.is-visible {
+   opacity: 1;
+   transform: translateY(0);
+}
+
+.werbeblock2 {
+   display: flex;
+   flex-direction: row-reverse;
+   /* Spiegelverkehrte Anordnung (Bild links, Text rechts) */
+   justify-content: space-between;
+   align-items: center;
+   padding: 20px 40px;
+}
+
+.werbetext2 {
+   margin-right: auto;
+   margin-left: auto;
+}
+
+.werbebild2 {
+   width: 400px;
+   height: auto;
+   margin-right: 24px;
+   /* Abstand nach rechts zum Text */
+   flex-shrink: 0;
+   border-radius: 30px;
+}
+
+.ueberschrift2 {
+   font-size: 32px;
+   top: -45px;
+   position: relative;
+}
+
+.blocktext2 {
+   margin-top: -40px;
+}
+
+.button2 {
+   background-color: whitesmoke;
+   color: #078efb;
+   border: none;
+   font-size: 16px;
+   font-weight: 500;
+   line-height: 1.5;
+   margin-left: -6px;
+   /* Wieder margin-left, damit der Button exakt auf der Höhe des h2 beginnt */
+   margin-top: 15px;
+   transition: color 0.2s ease;
+}
+
+.button2:hover {
+   color: #1a73e8;
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+nav {
+   background-color: #1a1a1a;
+   /* Sehr dunkles Grau/Schwarz als Hintergrund der Navigationsleiste. */
+}
+
+nav ul {
+   list-style: none;
+   /* Entfernt die Standard-Punkte (●) vor Listenpunkten. */
+   margin: 0;
+   padding-left: 0;
+   padding-right: 0;
+   display: flex;
+   /* Alle <li>-Einträge nebeneinander (horizontal). */
+   align-items: center;
+   /* Alle Punkte vertikal zentriert. */
+}
+
+nav ul li {
+   color: whitesmoke;
+   /* Weiße Schrift auf dem dunklen Hintergrund. */
+   padding-top: 10px;
+   /* 10px Abstand oben (gibt dem Menü Höhe). */
+   padding-bottom: 10px;
+   /* 10px Abstand unten. */
+   display: flex;
+   /* Macht jeden Listenpunkt selbst zum Flex-Container. */
+   justify-content: center;
+   align-items: center;
+   /* Inhalt des Listenpunkts vertikal und horizontal zentriert. */
+   flex: 1 1 0px;
+   /* Erzwingt eine exakt gleiche Aufteilung des Platzes für alle Menüpunkte, unabhängig von der Textlänge. */
+   position: relative;
+   /* Wichtig für die absolute Positionierung des Dropdowns. */
+}
+
+/* Trennstrich-Listenpunkte */
+nav ul li.divider {
+   width: 1px;
+   /* Nur 1 Pixel breit – ein dünner senkrechter Strich. */
+   height: 41px;
+   /* Höhe des Strichs. */
+   background-color: whitesmoke;
+   /* Helle Farbe des Strichs. */
+   opacity: 0.6;
+   /* 60% Deckkraft – leicht transparent für einen subtilen Effekt. */
+   padding: 0;
+   /* Kein Innenabstand – würde sonst den 1px-Strich breiter machen. */
+   flex: 0 0 1px;
+   /* Verhindert, dass der Trennstrich wächst oder schrumpft. */
+}
+
+/* =========================================================
+   DROPDOWN MENU
+   ========================================================= */
+
+.dropdown-content {
+   position: absolute;
+   top: 100%;
+   /* Direkt unterhalb des Listenpunkts (nav ul li) */
+   left: 0;
+   width: 100%;
+   /* Genauso breit wie das Elternelement (von Trennstrich zu Trennstrich) */
+   background-color: #1a1a1a;
+   /* Gleiche Farbe wie die Navigationsleiste */
+   display: flex;
+   flex-direction: column;
+   padding: 0;
+   border-bottom-left-radius: 8px;
+   border-bottom-right-radius: 8px;
+   overflow: hidden;
+   /* Verhindert, dass der Hover-Hintergrund des letzten Elements über die abgerundeten Ecken ragt */
+   /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); */
+   z-index: 1000;
+
+   /* Ease-in und Ease-out Effekt */
+   opacity: 0;
+   visibility: hidden;
+   transform: translateY(-10px);
+   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.nav-item-dropdown:hover .dropdown-content {
+   opacity: 1;
+   visibility: visible;
+   transform: translateY(0);
+}
+
+.dropdown-content a,
+.dropdown-content a:visited,
+.dropdown-content a:active {
+   color: whitesmoke;
+   padding: 12px 0;
+   text-decoration: none;
+   text-align: center;
+   width: 100%;
+   font-size: 0.95rem;
+   transition: color 0.2s ease;
+}
+
+.dropdown-content a:hover {
+   color: #cccccc;
+}
+
+.chevron-hover {
+   display: inline-block;
+   width: 16px;
+   height: 16px;
+   transform: rotate(90deg);
+   vertical-align: middle;
+   margin-left: 2px;
+   /* Näher am Text */
+   transition: 0.3s ease;
+}
+
+.chevron-hover img {
+   width: 100%;
+   height: auto;
+   display: block;
+}
+
+.nav-item-dropdown:hover .chevron-hover {
+   transform: rotate(270deg);
+}
+
+
+
+#ergebnis-liste li a:hover {
+   background: #f5f5f5;
+}
+
+
+.hover-effekt,
+.hover-effekt:visited,
+.hover-effekt:active {
+   text-decoration: none;
+   color: whitesmoke;
+   transition: color 0.2s ease;
+}
+
+.hover-effekt:hover {
+   color: #cccccc;
+}
+
+.farbe-news {
+   background-color: #EEEEF2;
+   padding-top: 20px;
+}
+
+.grid-design {
+   display: grid;
+   grid-template-columns: repeat(3, 400px);
+   justify-content: space-evenly;
+}
+
+.news-bild-1 {
+   border-top-left-radius: 30px;
+   border-top-right-radius: 30px;
+   width: 100%;
+   height: auto;
+   display: block;
+}
+
+.container1 {
+   margin-bottom: 30px;
+   background-color: whitesmoke;
+   border-radius: 30px;
+   align-items: center;
+   overflow: hidden;
+}
+
+.news-text-1 {
+   width: 100%;
+   height: 50%;
+   padding-left: 30px;
+   padding-right: 20px;
+   padding-top: 6px;
+   padding-bottom: 20px;
+   box-sizing: border-box;
+}
+
+.kategorie {
+   color: #6e6e73;
+}
+
+.zeilenumbruch-verhindern {
+   white-space: nowrap;
+}
+
+.news-link {
+   text-decoration: none;
+   color: #078efb;
+   transition: color 0.2s ease;
+}
+
+.news-link:hover {
+   color: #1a73e8;
+}
+
+/* ===== Tablet ===== */
+@media (max-width: 1024px) {
+   .grid-design {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      justify-content: space-evenly;
+      gap: 32px;
+      padding-left: 32px;
+      padding-right: 32px;
+   }
+}
+
+/* ===== Handy ===== */
+@media (max-width: 600px) {
+   .grid-design {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+      padding-left: 20px;
+      padding-right: 20px;
+   }
+
+   .news-text-1 {
+      padding-left: 20px;
+      padding-right: 16px;
+   }
+
+   .zeilenumbruch-verhindern {
+      white-space: normal;
+   }
+}
+
+.ueberschrift-rechtliches {
+   font-weight: bold;
+   margin: 0 0 6px 0;
+}
+
+.unterpunkte-rechtliches a {
+   color: black;
+   text-decoration: none;
+   transition: color 0.2s ease;
+   display: block;
+   line-height: 1.5;
+}
+
+.unterpunkte-rechtliches {
+   list-style-type: none;
+   margin: 0;
+   padding-left: 0;
+}
+
+.unterpunkte-rechtliches li {
+   margin: 0;
+   padding: 0;
+   line-height: 1.5;
+}
+
+.unterpunkte-rechtliches a:hover {
+   color: #777777;
+}
+
+.copyright {
+   margin-top: 6px;
+}
+
+.ueberschrift-version {
+   font-weight: bold;
+   margin: 0 0 6px 0;
+}
+
+.unterpunkte-version {
+   list-style: none;
+   margin: 0;
+   padding-left: 0;
+   margin-top: 7px;
+}
+
+.unterpunkte-version li {
+   margin: 0;
+   padding: 0;
+   line-height: 1.5;
+}
+
+.unterpunkte-version li:last-child {
+   margin-bottom: 6px;
+}
+
+.version-liste {
+   text-decoration: none;
+   color: black;
+   transition: color 0.2s ease;
+}
+
+.version-liste:hover {
+   color: #777777;
+}
+
+.grid-impressum {
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+   padding-top: 15px;
+   padding-left: 30px;
+   padding-right: 30px;
+   padding-bottom: 10px;
+}
+
+.sponsor-bild img {
+   width: 300px;
+   height: auto;
+   display: block;
+}
+
+.nach-innen {
+   padding-left: 40px;
+   padding-right: 40px;
+}
+
+/* =========================================================
+   TABELLEN DESIGN
+   ========================================================= */
+table {
+   width: 100%;
+   border-collapse: collapse;
+   background-color: #EEEEF2;
+   border-radius: 8px;
+   overflow: hidden;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+   margin-bottom: 30px;
+}
+
+th,
+td {
+   padding: 16px 24px;
+   text-align: left;
+}
+
+th {
+   background-color: #1a1a1a;
+   color: whitesmoke;
+   font-weight: 600;
+   text-transform: uppercase;
+   font-size: 0.85rem;
+   letter-spacing: 0.5px;
+}
+
+tr {
+   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+   transition: background-color 0.2s ease;
+}
+
+tr:last-child {
+   border-bottom: none;
+}
+
+.uhrzeit-dienstag {
+   font-size: 12px;
+}
+
+.der-x-te-text {
+   margin-bottom: 35px;
+}
+
+.abstand-oben-trainingszeiten {
+   margin-top: 35px;
+   margin-bottom: 35px;
+}
+
+
+
+
+
+
+
+
+/* Generelle Seiteneinstellungen während des Ladens */
+html,
+body {
+   margin: 0;
+   padding: 0;
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+   /* Verhindert Scrollen beim Laden */
+   background-color: #f3f4f6;
+}
+
+/* Container für den Ladebildschirm */
+#loading-screen {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: #f3f4f6;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   z-index: 99999;
+   opacity: 1;
+   visibility: visible;
+   transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* Inhalt-Zentrierung */
+.loader-content {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 25px;
+}
+
+/* --- Schreibmaschinen-Animation --- */
+.typewriter {
+   --blue: #8b5cf6;
+   --blue-dark: #fdba74;
+   --key: #fff;
+   --paper: #eef0fd;
+   --text: #d3d4ec;
+   --tool: #fbc56c;
+   --duration: 3s;
+   position: relative;
+   animation: bounce05 var(--duration) linear infinite;
+}
+
+.typewriter .slide {
+   width: 92px;
+   height: 20px;
+   border-radius: 3px;
+   margin-left: 14px;
+   transform: translateX(14px);
+   background: linear-gradient(var(--blue), var(--blue-dark));
+   animation: slide05 var(--duration) ease infinite;
+}
+
+.typewriter .slide:before,
+.typewriter .slide:after,
+.typewriter .slide i:before {
+   content: "";
+   position: absolute;
+   background: var(--tool);
+}
+
+.typewriter .slide:before {
+   width: 2px;
+   height: 8px;
+   top: 6px;
+   left: 100%;
+}
+
+.typewriter .slide:after {
+   left: 94px;
+   top: 3px;
+   height: 14px;
+   width: 6px;
+   border-radius: 3px;
+}
+
+.typewriter .slide i {
+   display: block;
+   position: absolute;
+   right: 100%;
+   width: 6px;
+   height: 4px;
+   top: 4px;
+   background: var(--tool);
+}
+
+.typewriter .slide i:before {
+   right: 100%;
+   top: -2px;
+   width: 4px;
+   border-radius: 2px;
+   height: 14px;
+}
+
+.typewriter .paper {
+   position: absolute;
+   left: 24px;
+   top: -26px;
+   width: 40px;
+   height: 46px;
+   border-radius: 5px;
+   background: var(--paper);
+   transform: translateY(46px);
+   animation: paper05 var(--duration) linear infinite;
+}
+
+.typewriter .paper:before {
+   content: "";
+   position: absolute;
+   left: 6px;
+   right: 6px;
+   top: 7px;
+   border-radius: 2px;
+   height: 4px;
+   transform: scaleY(0.8);
+   background: var(--text);
+   box-shadow: 0 12px 0 var(--text),
+      0 24px 0 var(--text),
+      0 36px 0 var(--text);
+}
+
+.typewriter .keyboard {
+   width: 120px;
+   height: 56px;
+   margin-top: -10px;
+   z-index: 1;
+   position: relative;
+}
+
+.typewriter .keyboard:before,
+.typewriter .keyboard:after {
+   content: "";
+   position: absolute;
+}
+
+.typewriter .keyboard:before {
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   border-radius: 7px;
+   background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+   transform: perspective(10px) rotateX(2deg);
+   transform-origin: 50% 100%;
+}
+
+.typewriter .keyboard:after {
+   left: 2px;
+   top: 25px;
+   width: 11px;
+   height: 4px;
+   border-radius: 2px;
+   box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key), 60px 0 0 var(--key),
+      75px 0 0 var(--key), 90px 0 0 var(--key), 22px 10px 0 var(--key), 37px 10px 0 var(--key),
+      52px 10px 0 var(--key), 60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+   animation: keyboard05 var(--duration) linear infinite;
+}
+
+/* Keyframes */
+@keyframes bounce05 {
+
+   85%,
+   92%,
+   100% {
+      transform: translateY(0);
+   }
+
+   89% {
+      transform: translateY(-4px);
+   }
+
+   95% {
+      transform: translateY(2px);
+   }
+}
+
+@keyframes slide05 {
+   5% {
+      transform: translateX(14px);
+   }
+
+   15%,
+   30% {
+      transform: translateX(6px);
+   }
+
+   40%,
+   55% {
+      transform: translateX(0);
+   }
+
+   65%,
+   70% {
+      transform: translateX(-4px);
+   }
+
+   80%,
+   89% {
+      transform: translateX(-12px);
+   }
+
+   100% {
+      transform: translateX(14px);
+   }
+}
+
+@keyframes paper05 {
+   5% {
+      transform: translateY(46px);
+   }
+
+   20%,
+   30% {
+      transform: translateY(34px);
+   }
+
+   40%,
+   55% {
+      transform: translateY(22px);
+   }
+
+   65%,
+   70% {
+      transform: translateY(10px);
+   }
+
+   80%,
+   85% {
+      transform: translateY(0);
+   }
+
+   92%,
+   100% {
+      transform: translateY(46px);
+   }
+}
+
+@keyframes keyboard05 {
+
+   5%,
+   12%,
+   21%,
+   30%,
+   39%,
+   48%,
+   57%,
+   66%,
+   75%,
+   84% {
+      box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key), 60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key), 22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key), 60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+   }
+
+   9% {
+      box-shadow: 15px 2px 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key), 60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key), 22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key), 60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+   }
+
+   18% {
+      box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key), 60px 2px 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key), 22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key), 60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+   }
+
+   27% {
+      box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key), 60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key), 22px 12px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key), 60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+   }
+
+   36% {
+      box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key), 60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key), 22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 12px 0 var(--key), 60px 12px 0 var(--key), 68px 12px 0 var(--key), 83px 10px 0 var(--key);
+   }
+
+   45% {
+      box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key), 60px 0 0 var(--key), 75px 0 0 var(--key), 90px 2px 0 var(--key), 22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key), 60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+   }
+
+   54% {
+      box-shadow: 15px 0 0 var(--key), 30px 2px 0 var(--key), 45px 0 0 var(--key), 60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key), 22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key), 60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+   }
+
+   63% {
+      box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key), 60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key), 22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key), 60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 12px 0 var(--key);
+   }
+
+   72% {
+      box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 2px 0 var(--key), 60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key), 22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key), 60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+   }
+
+   81% {
+      box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key), 60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key), 22px 10px 0 var(--key), 37px 12px 0 var(--key), 52px 10px 0 var(--key), 60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+   }
+}
+
+/* Statustext Styling */
+.loading-text {
+   font-family: 'Courier New', Courier, monospace;
+   font-weight: bold;
+   color: #8b5cf6;
+   font-size: 18px;
+   animation: pulseText 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseText {
+
+   0%,
+   100% {
+      opacity: 0.4;
+   }
+
+   50% {
+      opacity: 1;
+   }
+}
+
+/* Macher Verlinkung ganz unten */
+.loader-footer {
+   position: absolute;
+   bottom: 20px;
+   font-family: system-ui, -apple-system, sans-serif;
+   font-size: 12px;
+   color: #9ca3af;
+}
+
+.loader-footer a {
+   color: #8b5cf6;
+   text-decoration: none;
+   font-weight: bold;
+}
+
+.loader-footer a:hover {
+   text-decoration: underline;
+}
+
+.header-icons {
+   display: flex;
+   align-items: center;
+   /* Zentriert die Icons perfekt auf einer horizontalen Linie */
+   gap: 15px;
+   /* Abstand zwischen Suche und Menü */
+}
+
+/* 2. Vereinheitlichung der Bildgrößen */
+.hero-icon-1 img {
+   width: 25px;
+   height: 25px;
+   object-fit: contain;
+}
+
+.hero-icon-2 {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   position: relative;
+   width: 28px;
+   height: 28px;
+}
+
+.hero-icon-2 .burger-icon,
+.hero-icon-2 .close-icon {
+   display: block;
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 28px;
+   height: 28px;
+   object-fit: contain;
+}
+
+.hero-icon-2 .close-icon {
+   display: none;
+   transform: translateY(-2px);
+}
+
+.hero-icon-2 .burger-icon {
+   transform: translateY(-2px);
+   /* Wert nach Augenmaß anpassen */
+}
+
+@media only screen and (max-width: 490px) {
+   h1 {
+      display: none;
+   }
+}
+
+@media only screen and (min-width: 950px) {
+   .hero-icon-2 {
+      display: none;
+   }
+}
+
+@media only screen and (max-width: 950px) {
+   nav {
+      display: none;
+   }
+}
+
+.such-panel {
+   position: absolute;
+   top: 100%;
+   left: 0;
+   width: 100%;
+   background-color: whitesmoke;
+   /* Einheitlich Whitesmoke */
+   color: #222222;
+   /* Gut lesbare, dunkle Schrift */
+
+   max-height: 0;
+   overflow: hidden;
+   opacity: 0;
+   transition: max-height 0.3s ease-in-out, opacity 0.3s ease;
+   z-index: 999;
+   box-shadow: none;
+   /* Kein Schatten-Rand */
+}
+
+.such-panel.offen {
+   max-height: 300px;
+   opacity: 1;
+}
+
+.such-panel.mit-ergebnissen {
+   max-height: 600px;
+}
+
+.such-panel-inner {
+   padding: 24px 40px;
+   max-width: 1200px;
+   margin: 0 auto;
+   background-color: whitesmoke;
+   /* Einheitlich Whitesmoke */
+}
+
+#such-input {
+   width: 100%;
+   padding: 12px 16px;
+   font-size: 24px;
+   background-color: whitesmoke;
+   /* Einheitlich Whitesmoke */
+   color: #222222;
+   outline: none;
+   border: none;
+   /* Garantiert kein Rand im Normalzustand */
+   transition: all 0.2s ease;
+   margin-left: -17px;
+}
+
+/* Absolut kein Rand oder Schatten beim Reinklicken */
+#such-input:focus {
+   border: none;
+   outline: none;
+   box-shadow: none;
+}
+
+#such-input::placeholder {
+   color: #777777;
+   /* Etwas dunkler für bessere Lesbarkeit auf Whitesmoke */
+}
+
+.such-ergebnisse {
+   margin-top: 0;
+   transition: margin-top 0.2s ease;
+}
+
+.such-ergebnisse:not(:empty) {
+   margin-top: 16px;
+}
+
+.such-ergebnisse p {
+   color: #555555;
+   margin: 0;
+   padding: 10px 12px;
+   font-style: italic;
+}
+
+.such-ergebnisse a {
+   display: block;
+   color: #222222;
+   text-decoration: none;
+   padding: 10px 12px;
+   border-radius: 6px;
+   /* Trennlinie auf ein absolutes Minimum reduziert, damit es flächig wirkt */
+   border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+   transition: all 0.2s ease;
+}
+
+/* Hover-Effekt: Text wird tiefschwarz, Hintergrund bricht dezent aus */
+.such-ergebnisse a:hover {
+   background-color: rgba(0, 0, 0, 0.05);
+   color: #000000;
+   padding-left: 18px;
+}
+
+.quick-links {
+   margin-top: 20px;
+   padding-top: 12px;
+   border-top: 1px solid rgba(0, 0, 0, 0.05);
+   transition: opacity 0.25s ease, visibility 0.25s ease, max-height 0.25s ease-in-out, margin-top 0.25s ease;
+   max-height: 200px;
+   overflow: hidden;
+}
+
+.quick-links.versteckt {
+   opacity: 0;
+   visibility: hidden;
+   max-height: 0;
+   margin-top: 0;
+   padding-top: 0;
+   border-top-color: transparent;
+}
+
+.quick-links-titel {
+   font-size: 0.85rem;
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+   color: #555555;
+   margin-bottom: 10px;
+   font-weight: bold;
+}
+
+.quick-links ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+}
+
+.quick-links a {
+   color: #333333;
+   text-decoration: none;
+   font-size: 1rem;
+   font-weight: 500;
+   transition: color 0.2s ease;
+}
+
+/* Hover-Effekt für Quicklinks */
+.quick-links a:hover {
+   color: #000000;
+}
